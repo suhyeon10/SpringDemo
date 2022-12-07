@@ -4,10 +4,14 @@ import com.example.recokr.collect.domain.CollectHistory;
 import com.example.recokr.collect.domain.CollectHistoryRepository;
 import com.example.recokr.collect.domain.Company;
 import com.example.recokr.collect.domain.CompanyRepository;
+import com.example.recokr.collect.dto.CollectHistoryCompanyDto;
 import com.example.recokr.collect.dto.CollectHistoryDto;
 import com.example.recokr.collect.dto.CollectHistoryImageDto;
 import com.example.recokr.collect.dto.CompanyReqDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,9 +25,9 @@ import java.util.stream.Collectors;
 public class CollectService {
     private final CollectHistoryRepository collectHistoryRepository;
     private final CompanyRepository companyRepository;
-    public List<CollectHistoryDto> getAllCollectHistory(){
+    public List<CollectHistoryCompanyDto> getAllCollectHistory(){
         List<CollectHistory> collectHistoryList = collectHistoryRepository.findAll();
-        return CollectHistoryDto.fromList(collectHistoryList);
+        return CollectHistoryCompanyDto.fromList(collectHistoryList);
     }
 
 //    public CollectImageDto getCollectImageInfo(LocalDate realCollectDate) throws Exception {
@@ -50,6 +54,13 @@ public class CollectService {
                 companyReqDto.getCompanyRegion(),
                 companyReqDto.getContractStartDate(),
                 companyReqDto.getBusinessMan()));
+    }
+
+    public List<CollectHistoryDto> getCollectHistory(int page, int num){
+        return collectHistoryRepository.findAll(PageRequest.of(page-1, num))
+                .stream()
+                .map(CollectHistoryDto::from)
+                .collect(Collectors.toList());
     }
 
 

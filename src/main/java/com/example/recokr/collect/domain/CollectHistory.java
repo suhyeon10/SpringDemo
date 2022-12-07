@@ -1,6 +1,5 @@
 package com.example.recokr.collect.domain;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name = "collect_history")
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class CollectHistory {
 
     @Id

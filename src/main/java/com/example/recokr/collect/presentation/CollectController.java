@@ -1,14 +1,11 @@
 package com.example.recokr.collect.presentation;
 
 import com.example.recokr.collect.app.CollectService;
-import com.example.recokr.collect.domain.Company;
-import com.example.recokr.collect.dto.CollectHistoryDto;
-import com.example.recokr.collect.dto.CollectHistoryImageDto;
-import com.example.recokr.collect.dto.CollectImageReqDto;
-import com.example.recokr.collect.dto.CompanyReqDto;
+import com.example.recokr.collect.dto.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +17,7 @@ public class CollectController {
 
     @ApiOperation("모든 수거 이력 조회하기")
     @GetMapping( "/collect")
-    public ResponseEntity<List<CollectHistoryDto>> login(@RequestHeader("User-Agent") String userAgent) {
+    public ResponseEntity<List<CollectHistoryCompanyDto>> login(@RequestHeader("User-Agent") String userAgent) {
         return ResponseEntity.ok(collectService.getAllCollectHistory());
     }
 
@@ -34,5 +31,11 @@ public class CollectController {
     @PostMapping("/company/add")
     public ResponseEntity addCompany(@RequestBody final CompanyReqDto companyReqDto){
         return ResponseEntity.ok(collectService.addCompany(companyReqDto));
+    }
+
+    @ApiOperation("업장 이력을 조회하는 API")
+    @PostMapping("/collectHistory")
+    public ResponseEntity getCollectHistory(@PageRequestParams final SelectReadPageDto selectReadPageDto){
+        return ResponseEntity.ok(collectService.getCollectHistory(selectReadPageDto.getPage(), selectReadPageDto.getNum()));
     }
 }
