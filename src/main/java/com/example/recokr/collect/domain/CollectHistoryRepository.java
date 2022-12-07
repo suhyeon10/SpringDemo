@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface CollectHistoryRepository extends JpaRepository<CollectHistory, Long> {
     List<CollectHistory> findAll();
 
-    Optional<CollectHistory> findTopByRealCollectTimeIsAfter(LocalDate realCollectTime);
+    List<CollectHistory> findAllByRealCollectTimeIsAfter(LocalDate realCollectTime);
 
 }

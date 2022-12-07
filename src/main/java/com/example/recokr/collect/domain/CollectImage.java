@@ -1,13 +1,16 @@
 package com.example.recokr.collect.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Getter
+@Table(name = "collect_image")
 public class CollectImage {
 
     @Id
@@ -19,8 +22,9 @@ public class CollectImage {
     @Enumerated(EnumType.STRING)
     private FileType fileType;
 
-    @OneToMany(mappedBy = "collectImage", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<CollectHistory> collectHistoryList;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "collect_history_id")
+    private CollectHistory collectHistory;
 
     private LocalDate createDate;
     private LocalDate modifiedDate;

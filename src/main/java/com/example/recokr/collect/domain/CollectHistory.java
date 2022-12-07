@@ -1,12 +1,18 @@
 package com.example.recokr.collect.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
+@Table(name = "collect_history")
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CollectHistory {
 
     @Id
@@ -17,8 +23,8 @@ public class CollectHistory {
     @JoinColumn(name = "companyId")
     private Company company;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private CollectImage collectImage;
+    @OneToMany(mappedBy = "collectHistory")
+    private List<CollectImage> imageList = new ArrayList<>();
 
     private Integer collectAmount;
 
